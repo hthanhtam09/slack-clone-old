@@ -96,7 +96,7 @@ export const SignUpCard = (props: SignUpardProps) => {
           <Input
             value={formData.name}
             onChange={(e) => onChangeFormData(e, "name")}
-            placeholder="Name"
+            placeholder="Full name"
             type="text"
             required
             disabled={pending}
