@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { IOAuthProviders, ISignInFlow } from "../types";
+import { IFormData, IOAuthProviders, ISignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { TriangleAlert } from "lucide-react";
@@ -22,15 +22,21 @@ interface SignInCardProps {
 export const SignInCard = (props: SignInCardProps) => {
   const { setState } = props;
   const { signIn } = useAuthActions();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPending(true);
-    signIn("password", { email, password, flow: "signIn", redirectTo: "/" })
+    signIn("password", {
+      email: formData.email,
+      password: formData.password,
+      flow: "signIn",
+    })
       .then(({ signingIn }) => {
         if (signingIn) {
           window.location.href = "/";
@@ -44,6 +50,17 @@ export const SignInCard = (props: SignInCardProps) => {
         setPending(false);
         setError("");
       });
+  };
+
+  const onChangeFormData = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: IFormData
+  ) => {
+    const value = e.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [type]: value,
+    }));
   };
 
   const onProviderSignIn = (value: IOAuthProviders) => {
@@ -68,16 +85,16 @@ export const SignInCard = (props: SignInCardProps) => {
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5" onSubmit={onPasswordSignIn}>
           <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={(e) => onChangeFormData(e, "email")}
             placeholder="Email"
             type="email"
             required
             disabled={pending}
           />
           <Input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={(e) => onChangeFormData(e, "password")}
             placeholder="Password"
             type="password"
             required

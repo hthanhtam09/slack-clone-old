@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IOAuthProviders, ISignInFlow } from "../types";
+import { IFormData, IOAuthProviders, ISignInFlow } from "../types";
 import {
   Card,
   CardContent,
@@ -23,28 +23,35 @@ export const SignUpCard = (props: SignUpardProps) => {
   const { setState } = props;
   const { signIn } = useAuthActions();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
     setPending(true);
-    signIn("password", { email, password, flow: "signUp" })
+    signIn("password", {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      flow: "signUp",
+    })
       .then(({ signingIn }) => {
         if (signingIn) {
           window.location.href = "/";
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         setError("Something went wrong");
         setPending(false);
       })
@@ -57,6 +64,17 @@ export const SignUpCard = (props: SignUpardProps) => {
   const onProviderSignUp = (value: IOAuthProviders) => {
     setPending(true);
     signIn(value).finally(() => setPending(false));
+  };
+
+  const onChangeFormData = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: IFormData
+  ) => {
+    const value = e.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [type]: value,
+    }));
   };
 
   return (
@@ -76,24 +94,32 @@ export const SignUpCard = (props: SignUpardProps) => {
       <CardContent className="space-y-5 px-0 pb-0">
         <form onSubmit={onPasswordSignUp} className="space-y-2.5">
           <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.name}
+            onChange={(e) => onChangeFormData(e, "name")}
+            placeholder="Name"
+            type="text"
+            required
+            disabled={pending}
+          />
+          <Input
+            value={formData.email}
+            onChange={(e) => onChangeFormData(e, "email")}
             placeholder="Email"
             type="email"
             required
             disabled={pending}
           />
           <Input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={(e) => onChangeFormData(e, "password")}
             placeholder="Password"
             type="password"
             required
             disabled={pending}
           />
           <Input
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={formData.confirmPassword}
+            onChange={(e) => onChangeFormData(e, "confirmPassword")}
             placeholder="Confirm Password"
             type="password"
             required
