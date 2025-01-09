@@ -48,7 +48,6 @@ export const SignInCard = (props: SignInCardProps) => {
       })
       .finally(() => {
         setPending(false);
-        setError("");
       });
   };
 

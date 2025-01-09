@@ -57,7 +57,6 @@ export const SignUpCard = (props: SignUpardProps) => {
       })
       .finally(() => {
         setPending(false);
-        setError("");
       });
   };
 
