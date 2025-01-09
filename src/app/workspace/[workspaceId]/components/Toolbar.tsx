@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { useGetWorkspaceById } from "@/hooks/useGetWorkspaces";
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetWorkspaceById } from "@/hooks/workspace/useGetWorkspaces";
+import { useWorkspaceId } from "@/hooks/workspace/useWorkspaceId";
 import { Info, Search } from "lucide-react";
 import React from "react";
 

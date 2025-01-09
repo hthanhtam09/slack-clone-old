@@ -1,6 +1,6 @@
 import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 import { useState } from "react";
 
 type RequestType = {
@@ -18,7 +18,7 @@ type Options = {
 
 type IStatus = "pending" | "success" | "error" | "settled";
 
-export const useCreateWorkspaces = () => {
+export const useCreateWorkspace = () => {
   const mutation = useMutation(api.workspaces.create);
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState(null);
@@ -38,6 +38,7 @@ export const useCreateWorkspaces = () => {
       options?.onSuccess?.(response);
       return response;
     } catch (error) {
+      setStatus("error");
       options?.onError?.(error as Error);
       if (options?.throwError) {
         throw error;

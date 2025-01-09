@@ -6,12 +6,12 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useCreateWorkspaces } from "@/hooks/useCreateWorkspaces";
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { useCreateWorkspace } from "@/hooks/workspace/useCreateWorkspace";
+import { useCreateWorkspaceModal } from "@/hooks/workspace/useCreateWorkspaceModal";
 
 export const CreateWorkspaceModal = () => {
   const [open, setOpen] = useCreateWorkspaceModal();
-  const { mutate, isPending } = useCreateWorkspaces();
+  const { mutate, isPending } = useCreateWorkspace();
   const router = useRouter();
 
   const [name, setName] = useState("");

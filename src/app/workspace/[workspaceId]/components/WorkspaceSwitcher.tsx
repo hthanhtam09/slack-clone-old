@@ -1,16 +1,15 @@
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/hooks/workspace/useCreateWorkspaceModal";
 import {
   useGetWorkspaceById,
   useGetWorkspaces,
-} from "@/hooks/useGetWorkspaces";
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+} from "@/hooks/workspace/useGetWorkspaces";
+import { useWorkspaceId } from "@/hooks/workspace/useWorkspaceId";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
