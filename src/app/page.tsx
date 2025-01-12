@@ -2,9 +2,9 @@
 
 import { UserButton } from "./auth/components/UserButton";
 import { useEffect } from "react";
-import { useCreateWorkspaceModal } from "@/hooks/workspace/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
 import { useRouter } from "next/navigation";
-import { useGetWorkspaces } from "@/hooks/workspace/useGetWorkspaces";
+import { useGetWorkspaces } from "@/hooks/workspaces/useGetWorkspaces";
 
 export default function Home() {
   const { data, isLoading } = useGetWorkspaces();

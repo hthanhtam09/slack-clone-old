@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetWorkspaceById } from "@/hooks/workspace/useGetWorkspaces";
-import { useWorkspaceId } from "@/hooks/workspace/useWorkspaceId";
+import { useGetWorkspaceById } from "@/hooks/workspaces/useGetWorkspaces";
+import { useWorkspaceId } from "@/hooks/workspaces/useWorkspaceId";
 
 const WorkspaceIdPage = () => {
   const workspaceId = useWorkspaceId();

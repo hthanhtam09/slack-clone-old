@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useConfirm } from "@/hooks/useConfirm";
-import { useRemoveWorkspace } from "@/hooks/workspace/useRemoveWorkspace";
-import { useUpdateWorkspace } from "@/hooks/workspace/useUpdateWorkspace";
-import { useWorkspaceId } from "@/hooks/workspace/useWorkspaceId";
+import { useRemoveWorkspace } from "@/hooks/workspaces/useRemoveWorkspace";
+import { useUpdateWorkspace } from "@/hooks/workspaces/useUpdateWorkspace";
+import { useWorkspaceId } from "@/hooks/workspaces/useWorkspaceId";
 import { TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

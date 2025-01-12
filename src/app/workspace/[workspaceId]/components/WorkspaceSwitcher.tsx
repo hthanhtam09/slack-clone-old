@@ -4,12 +4,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCreateWorkspaceModal } from "@/hooks/workspace/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
 import {
   useGetWorkspaceById,
   useGetWorkspaces,
-} from "@/hooks/workspace/useGetWorkspaces";
-import { useWorkspaceId } from "@/hooks/workspace/useWorkspaceId";
+} from "@/hooks/workspaces/useGetWorkspaces";
+import { useWorkspaceId } from "@/hooks/workspaces/useWorkspaceId";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
