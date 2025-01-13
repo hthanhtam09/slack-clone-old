@@ -19,3 +19,10 @@ export const useGetWorkspaceById = ({ id }: UseGetWorkspaceByIdProps) => {
 
   return { data, isLoading };
 };
+
+export const useGetWorkspaceInfo = ({ id }: UseGetWorkspaceByIdProps) => {
+  const data = useQuery(api.workspaces.getInfoById, { id });
+  const isLoading = data === undefined;
+
+  return { data, isLoading };
+};
