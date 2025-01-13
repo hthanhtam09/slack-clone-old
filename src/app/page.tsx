@@ -23,9 +23,5 @@ export default function Home() {
     }
   }, [workSpaceId, isLoading, open, setOpen, router]);
 
-  return (
-    <div>
-      <UserButton />
-    </div>
-  );
+  return <div>{/* <UserButton /> */}</div>;
 }
