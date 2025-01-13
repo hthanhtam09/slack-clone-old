@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/store/useCreateWorkspaceModal";
 import {
   useGetWorkspaceById,
   useGetWorkspaces,

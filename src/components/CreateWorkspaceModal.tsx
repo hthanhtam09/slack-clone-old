@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCreateWorkspace } from "@/hooks/workspaces/useCreateWorkspace";
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/store/useCreateWorkspaceModal";
 
 export const CreateWorkspaceModal = () => {
   const [open, setOpen] = useCreateWorkspaceModal();

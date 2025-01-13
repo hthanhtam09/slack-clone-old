@@ -2,7 +2,7 @@
 
 import { UserButton } from "./auth/components/UserButton";
 import { useEffect } from "react";
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/store/useCreateWorkspaceModal";
 import { useRouter } from "next/navigation";
 import { useGetWorkspaces } from "@/hooks/workspaces/useGetWorkspaces";
 
