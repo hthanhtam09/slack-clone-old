@@ -10,11 +10,13 @@ import {
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Loader, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export const UserButton = () => {
   const { data, isLoading } = useCurrentUser();
   const { signOut } = useAuthActions();
+  const router = useRouter();
 
   if (isLoading) {
     return <Loader className="size-4 animate-spin text-muted-foreground" />;
@@ -30,7 +32,7 @@ export const UserButton = () => {
 
   const onSignOut = () => {
     signOut().then(() => {
-      window.location.href = "/auth";
+      router.replace("/auth");
     });
   };
 

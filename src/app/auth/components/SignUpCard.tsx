@@ -14,6 +14,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface SignUpardProps {
   setState: (state: ISignInFlow) => void;
@@ -22,6 +23,7 @@ interface SignUpardProps {
 export const SignUpCard = (props: SignUpardProps) => {
   const { setState } = props;
   const { signIn } = useAuthActions();
+  const router = useRouter();
 
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
@@ -48,7 +50,7 @@ export const SignUpCard = (props: SignUpardProps) => {
     })
       .then(({ signingIn }) => {
         if (signingIn) {
-          window.location.href = "/";
+          router.replace("/");
         }
       })
       .catch(() => {

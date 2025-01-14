@@ -7,6 +7,7 @@ import { ImageIcon, Smile } from "lucide-react";
 import { MdSend } from "react-icons/md";
 import { Hint } from "./Hint";
 import { cn } from "@/lib/utils";
+import { EmojiPopover } from "./EmojiPopover";
 
 type EditorValue = {
   image: File | null;
@@ -51,6 +52,12 @@ export const Editor = ({
     if (toolbarElement) {
       toolbarElement.classList.toggle("hidden");
     }
+  };
+
+  const onEmojiSelect = (emoji: any) => {
+    const quill = quillRef.current;
+
+    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
   };
 
   useLayoutEffect(() => {
@@ -130,7 +137,7 @@ export const Editor = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
+      <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white mb-4">
         <div ref={containerRef} className="h-full ql-custom" />
         <div className="flex px-2 pb-2 z-[5]">
           <Hint
@@ -145,7 +152,7 @@ export const Editor = ({
               <PiTextAa className="size-4" />
             </Button>
           </Hint>
-          <Hint label="Emoji">
+          <EmojiPopover onEmojiSelect={onEmojiSelect}>
             <Button
               disabled={disabled}
               size="iconSm"
@@ -154,7 +161,7 @@ export const Editor = ({
             >
               <Smile className="size-4" />
             </Button>
-          </Hint>
+          </EmojiPopover>
           {variant === "create" && (
             <Hint label="Image">
               <Button
@@ -203,11 +210,6 @@ export const Editor = ({
             </Button>
           )}
         </div>
-      </div>
-      <div className="p-2 text-[10px] text-muted-foreground flex justify-end">
-        <p className="">
-          <strong>Shift + Return</strong> to add a new line
-        </p>
       </div>
     </div>
   );

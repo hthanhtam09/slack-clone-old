@@ -14,6 +14,7 @@ import { IFormData, IOAuthProviders, ISignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface SignInCardProps {
   setState: (state: ISignInFlow) => void;
@@ -21,6 +22,7 @@ interface SignInCardProps {
 
 export const SignInCard = (props: SignInCardProps) => {
   const { setState } = props;
+  const router = useRouter();
   const { signIn } = useAuthActions();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
@@ -39,7 +41,7 @@ export const SignInCard = (props: SignInCardProps) => {
     })
       .then(({ signingIn }) => {
         if (signingIn) {
-          window.location.href = "/";
+          router.replace("/");
         }
       })
       .catch(() => {
