@@ -9,11 +9,7 @@ import { Hint } from "./Hint";
 import { cn } from "@/lib/utils";
 import { EmojiPopover } from "./EmojiPopover";
 import Image from "next/image";
-
-type EditorValue = {
-  image: File | null;
-  body: string;
-};
+import { EditorValue } from "@/types";
 
 interface EditorProps {
   onSubmit: ({ body, image }: EditorValue) => void;
@@ -46,7 +42,8 @@ export const Editor = ({
   const [image, setImage] = useState<File | null>(null);
   const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
-  const isEmpty = text.replace(/<(.|\n) *?>/g, "").trim().length === 0;
+  const isEmpty =
+    !image && text.replace(/<(.|\n) *?>/g, "").trim().length === 0;
 
   const toggleToolbar = () => {
     setIsToolbarVisible((prev) => !prev);
@@ -90,13 +87,27 @@ export const Editor = ({
         keyboard: {
           bindings: {
             enter: {
-              key: "enter",
+              key: "Enter",
               handler: () => {
-                return;
+                const text = quill.getText();
+                const addedImage = imageElementRef?.current?.files?.[0] || null;
+
+                const isEmpty =
+                  !addedImage &&
+                  text.replace(/<(.|\n) *?>/g, "").trim().length === 0;
+
+                if (isEmpty) return;
+
+                const body = JSON.stringify(quill.getContents());
+
+                submitRef.current({
+                  body,
+                  image: addedImage,
+                });
               },
             },
             shift_enter: {
-              key: "enter",
+              key: "Enter",
               shiftKey: true,
               handler: () => {
                 quill.insertText(quill.getSelection()?.index || 0, "\n");
@@ -147,7 +158,12 @@ export const Editor = ({
         onChange={(e) => setImage(e.target.files![0])}
         className="hidden"
       />
-      <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white mb-4">
+      <div
+        className={cn(
+          "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white mb-4",
+          disabled && "opacity-50"
+        )}
+      >
         <div ref={containerRef} className="h-full ql-custom" />
         {!!image && (
           <div className="p-2">
@@ -208,15 +224,20 @@ export const Editor = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {}}
+                onClick={onCancel}
                 disabled={disabled}
               >
                 Cancel
               </Button>
               <Button
                 size="sm"
-                onClick={() => {}}
-                disabled={disabled}
+                onClick={() => {
+                  onSubmit({
+                    body: JSON.stringify(quillRef.current?.getContents()),
+                    image,
+                  });
+                }}
+                disabled={disabled || isEmpty}
                 className="bg-[#007a5a] hover:bg-[#007a5a]/80 text-white"
               >
                 Save
@@ -225,8 +246,13 @@ export const Editor = ({
           )}
           {variant === "create" && (
             <Button
-              disabled={disabledRef.current || isEmpty}
-              onClick={() => {}}
+              disabled={disabled || isEmpty}
+              onClick={() => {
+                onSubmit({
+                  body: JSON.stringify(quillRef.current?.getContents()),
+                  image,
+                });
+              }}
               size="iconSm"
               className={cn(
                 "ml-auto",
