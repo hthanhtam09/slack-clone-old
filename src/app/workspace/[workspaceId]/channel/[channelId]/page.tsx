@@ -7,6 +7,7 @@ import React from "react";
 import { Header } from "./components/Header";
 import { ChatInput } from "./components/ChatInput";
 import { useGetMessages } from "@/hooks/messages/useGetMessages";
+import { MessageList } from "./components/MessageList";
 
 const ChannelIdPage = () => {
   const channelId = useChannelId();
@@ -39,8 +40,14 @@ const ChannelIdPage = () => {
   return (
     <div className="flex flex-col h-full">
       <Header title={channel.name} />
-      {JSON.stringify(results)}
-      <div className="flex-1" />
+      <MessageList
+        channelName={channel.name}
+        channelCreationTime={channel._creationTime}
+        data={results}
+        loadMore={loadMore}
+        isLoadingMore={status === "LoadingMore"}
+        canLoadMore={status === "CanLoadMore"}
+      />
       <ChatInput placeholder={`Message # ${channel.name}`} />
     </div>
   );
