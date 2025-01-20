@@ -100,7 +100,7 @@ export const MessageList = ({
                   isEditing={editingId === message._id}
                   setEditingId={setEditingId}
                   isCompact={isCompact ?? false}
-                  hideThreadButton={false}
+                  hideThreadButton={variant === "thread"}
                   threadCount={message.threadCount}
                   threadImage={message.threadImage}
                   threadTimestamp={message.threadTimestamp}
