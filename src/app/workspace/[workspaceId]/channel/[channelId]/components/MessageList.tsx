@@ -2,6 +2,10 @@ import { GetMessagesReturnType } from "@/hooks/messages/useGetMessages";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { Message } from "./Message";
 import { ChannelHero } from "./ChannelHero";
+import { useState } from "react";
+import { Id } from "../../../../../../../convex/_generated/dataModel";
+import { useWorkspaceId } from "@/hooks/workspaces/useWorkspaceId";
+import { useCurrentMember } from "@/hooks/members/useCurrentMember";
 
 interface MessageListProps {
   memberName?: string;
@@ -29,12 +33,17 @@ export const MessageList = ({
   data,
   isLoadingMore,
   loadMore,
-  variant,
+  variant = "channel",
   channelCreationTime,
   channelName,
   memberImage,
   memberName,
 }: MessageListProps) => {
+  const workspaceId = useWorkspaceId();
+  const { data: currentMember } = useCurrentMember({ workspaceId });
+
+  const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
+
   const groupedMessages = data?.reduce(
     (groups, message) => {
       const date = new Date(message?._creationTime || 0);
@@ -79,7 +88,7 @@ export const MessageList = ({
                   memberId={message.memberId}
                   authorImage={message.user.image}
                   authorName={message.user.name}
-                  isAuthor={false}
+                  isAuthor={message.memberId === currentMember?._id}
                   reactions={message.reactions.map((reaction) => ({
                     ...reaction,
                     memberId: reaction.memberIds,
@@ -88,8 +97,8 @@ export const MessageList = ({
                   image={message.image}
                   updatedAt={message.updatedAt}
                   createdAt={message._creationTime}
-                  isEditing={false}
-                  setEditingId={() => {}}
+                  isEditing={editingId === message._id}
+                  setEditingId={setEditingId}
                   isCompact={isCompact ?? false}
                   hideThreadButton={false}
                   threadCount={message.threadCount}
